@@ -16,7 +16,7 @@ pipeline {
       steps {
         dir("${env.CODEDIR}") {
         echo 'Building docker-compose'
-        sh 'docker-compose build'
+        sh 'sudo docker-compose build'
         }
       }
     }
@@ -24,7 +24,7 @@ pipeline {
       steps {
         dir("${env.CODEDIR}") {
         echo 'Up the docker container'
-        sh 'docker-compose up -d'
+        sh 'sudo docker-compose up -d'
         }
       }
     }
