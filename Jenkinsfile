@@ -3,7 +3,7 @@ pipeline {
     label 'slave2'
   }
   environment{
-     CODEDIR='/home/ubuntu/jenkins-workspace/docker-build/dockertest'    
+     CODEDIR='/home/ubuntu/jenkins-slave/workspace/docker-build/dockertest'    
     }
   stages {
      stage('clone repo') {
