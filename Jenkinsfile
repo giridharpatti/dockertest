@@ -9,7 +9,7 @@ pipeline {
      stage('clone repo') {
        steps {
         sh "rm -rf *"
-        sh "git clone -b develop git@bitbucket.org:anuraggoyallh26/web-front.git"
+        sh "git clone -b develop git@github.com:giridharpatti/dockertest.git"
        }
      }
     stage('Build') {
