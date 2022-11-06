@@ -1,9 +1,9 @@
 pipeline {
   agent {
-    label 'slave2'
+    label 'slavei'
   }
   environment{
-     CODEDIR='/home/ubuntu/jenkins-slave/workspace/docker-build/dockertest'    
+     CODEDIR='/var/lib/jenkins/workspace/docker-build/dockertest'    
     }
   stages {
      stage('clone repo') {
@@ -17,14 +17,9 @@ pipeline {
         dir("${env.CODEDIR}") {
         echo 'Building docker-compose'
         sh 'sudo docker-compose build'
-        }
-      }
-    }
-    stage('Deploy') {
-      steps {
-        dir("${env.CODEDIR}") {
-        echo 'Up the docker container'
-        sh 'sudo docker-compose up -d'
+        sh 'sudo aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 710222791487.dkr.ecr.ap-south-1.amazonaws.com'
+        sh 'sudo docker tag httpd:latest 710222791487.dkr.ecr.ap-south-1.amazonaws.com/demo:${BUILD_NUMBER}'
+        sh 'sudo docker push 710222791487.dkr.ecr.ap-south-1.amazonaws.com/demo:${BUILD_NUMBER}'
         }
       }
     }
