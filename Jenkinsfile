@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    label 'slavei'
+    label 'slave1'
   }
   environment{
      CODEDIR='/var/lib/jenkins/workspace/docker-build/dockertest'    
