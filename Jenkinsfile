@@ -20,7 +20,7 @@ pipeline {
         docker build -t webapp:${BUILD_NUMBER} . &&
         docker save -o webapp_${BUILD_NUMBER}.tar webapp:${BUILD_NUMBER} &&
         aws s3 cp webapp_${BUILD_NUMBER}.tar s3://s3bucketasdockerimagesstorage/webapp_${BUILD_NUMBER}.tar &&
-        docker rmi $(docker images -q)
+        docker rmi -f $(docker images -q)
         '''
         }
       }
