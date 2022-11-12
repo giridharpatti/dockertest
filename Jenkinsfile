@@ -1,9 +1,9 @@
 pipeline {
   agent {
-    label 'slave1'
+    label 'ubuntu'
   }
   environment{
-     CODEDIR='/var/lib/jenkins/workspace/docker-build/dockertest'    
+     CODEDIR='/home/ubuntu/jenkins/workspace/nagarro-build/dockertest'    
     }
   stages {
      stage('clone repo') {
@@ -15,12 +15,11 @@ pipeline {
     stage('Build') {
       steps {
         dir("${env.CODEDIR}") {
-        echo 'Building docker-compose'
+        echo 'Building docker image'
         sh '''
-        docker-compose build &&
-        sudo docker tag dockertest-web:latest 710222791487.dkr.ecr.ap-south-1.amazonaws.com/demo:${BUILD_NUMBER} &&
-        sudo aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 710222791487.dkr.ecr.ap-south-1.amazonaws.com &&
-        docker push 710222791487.dkr.ecr.ap-south-1.amazonaws.com/demo:${BUILD_NUMBER}
+        docker build -t webapp:${BUILD_NUMBER} . &&
+        docker save -o webapp_${BUILD_NUMBER}.tar webapp:${BUILD_NUMBER} &&
+        aws s3 cp webapp_${BUILD_NUMBER}.tar s3://s3bucketasdockerimagesstorage/webapp_${BUILD_NUMBER}.tar
         '''
         }
       }
